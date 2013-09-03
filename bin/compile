@@ -105,9 +105,9 @@ else
 fi
 
 # copy in heroku sbt plugin
-HEROKU_PLUGIN="HerokuPlugin.scala"
-mkdir -p "$SBT_USER_HOME/.sbt/plugins"
-cp $OPT_DIR/$HEROKU_PLUGIN $SBT_USER_HOME/.sbt/plugins/$HEROKU_PLUGIN
++# remove heroku sbt plugin, if exists from cache
++HEROKU_PLUGIN="Heroku-0.11.3.scala"
++rm -f $SBT_USER_HOME/.sbt/plugins/$HEROKU_PLUGIN
 
 # build app
 echo "-----> Running: sbt $SBT_TASKS"
