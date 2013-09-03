@@ -13,11 +13,12 @@ OPT_DIR=$BP_DIR/opt
 BUILD_DIR=$(cd $1; pwd)
 CACHE_DIR=$2
 
+#clear the cache
+rm -rf $CACHE_DIR
+mkdir -p $CACHE_DIR
+
 curl --silent --location http://heroku-jvm-common.s3.amazonaws.com/jvm-buildpack-common.tar.gz | tar xz
 . bin/java
-
-#create the cache dir if it doesn't exist
-mkdir -p $CACHE_DIR
 
 # create default system.properties 
 if [ ! -f ${BUILD_DIR}/system.properties ]; then
@@ -44,12 +45,12 @@ SBT_BINDIR="$SBT_USER_HOME"/bin
 cd $BUILD_DIR
 
 # unpack cache
-CACHED_DIRS="$SBT_USER_HOME/.ivy2 $SBT_BINDIR"
+CACHED_DIRS="$SBT_BINDIR"
 for DIR in $CACHED_DIRS; do
   rm -rf $DIR
   if [ -d $CACHE_DIR/$DIR ]; then
     mkdir -p $DIR
-    cp -r $CACHE_DIR/$DIR/.  $DIR
+    rm -rf $CACHE_DIR/$DIR/*
   fi
 done
 
